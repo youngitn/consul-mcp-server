@@ -1,119 +1,35 @@
-[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/kocierik-consul-mcp-server-badge.png)](https://mseep.ai/app/kocierik-consul-mcp-server)
+# Consul MCP Server (Customized)
 
-# Consul MCP Server 🚀 
+This is a customized version of the [Consul MCP Server](https://github.com/kocierik/consul-mcp-server) modified specifically to support **Consul ACL Tokens**.
 
-[![smithery badge](https://smithery.ai/badge/@kocierik/consul-mcp-server)](https://smithery.ai/server/@kocierik/consul-mcp-server)
+## What's Changed?
+- Added support for `CONSUL_TOKEN` environment variable.
+- The underlying Consul client now correctly authenticates to secure clusters (with ACL enabled), allowing it to fetch both Services and Key-Value (KV) configurations without being blocked as an anonymous user.
 
-A Model Context Protocol (MCP) server that provides access to Consul's functionality through a standardized interface.
-<p align="center">
-<a  href="https://glama.ai/mcp/servers/@kocierik/consul-mcp-server">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/@kocierik/consul-mcp-server/badge" alt="Consul Server MCP server" />
-</a>
-<center>
-<video src="https://github.com/user-attachments/assets/81bf7d70-e837-4c99-8312-2c85ccace1f4"></video>
-</center>
-</p>
+## Configuration in MCP / Claude / Cursor
 
-## Features
-The server provides access to the following Consul functionality:
-
-### Service Management
-- List running services
-- Register and deregister services
-- Get service information
-- List catalog services
-- Get catalog service information
-
-### Health Checks
-- Register health checks
-- Deregister health checks
-- Get health checks for services
-
-### Key-Value Store
-- Get values from KV store
-- List keys in KV store
-- Put values in KV store
-- Delete keys from KV store
-
-### Sessions
-- List sessions
-- Destroy sessions
-
-### Events
-- Fire events
-- List events
-
-### Prepared Queries
-- Create prepared queries
-- Execute prepared queries
-
-### Status
-- Get current leader
-- Get current peers
-
-### Agent
-- Get agent members
-- Get agent self information
-
-### System
-- Get system health service information
-
-## Configuration
-
-The server can be configured using environment variables:
-
-- `CONSUL_HOST`: Consul server host (default: localhost)
-- `CONSUL_PORT`: Consul server port (default: 8500)
-
-## Usage
-
-1. Start the server:
-```bash
-node build/index.js
-```
-
-2. The server will connect to Consul and make all functionality available through the MCP interface.
-
-## Development
-
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Build the project:
-```bash
-npm run build
-```
-
-3. Run inspector:
-```bash
- npm run build && npx @modelcontextprotocol/inspector node build/index.js
-```
-
-## Claude config
+Use the following configuration in your `mcp_config.json` (or equivalent IDE settings):
 
 ```json
 {
-    "mcpServers": {
-        "consul-mcp": {
-            "command": "node",
-            "args": [
-                "/ABSOLUTE/PATH/TO/PARENT/FOLDER/consul-mcp-server/build/index.js"
-            ]
-        }
+  "mcpServers": {
+    "consul-mcp": {
+      "command": "node",
+      "args": [
+        "C:/path/to/your/consul-mcp-server/build/index.js"
+      ],
+      "env": {
+        "CONSUL_HOST": "10.4.0.53",
+        "CONSUL_PORT": "8500",
+        "CONSUL_TOKEN": "your-acl-token-here"
+      }
     }
+  }
 }
 ```
 
-### Installing via Smithery
+## Setup & Build
 
-To install Consul Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@kocierik/consul-mcp-server):
-
-```bash
-npx -y @smithery/cli install @kocierik/consul-mcp-server --client claude
-```
-
-## License
-
-MIT
+1. Clone this repository
+2. Run `npm install`
+3. Run `npm run build`
