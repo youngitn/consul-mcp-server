@@ -23,13 +23,17 @@ export async function startServer() {
     version: "1.0.0",
   });
 
-  // Consul config
   const consulHost = process.env.CONSUL_HOST || "localhost";
   const consulPort = parseInt(process.env.CONSUL_PORT || "8500", 10);
+  const consulToken = process.env.CONSUL_TOKEN || undefined;
+  console.error("DEBUG: CONSUL_TOKEN is:", consulToken ? "SET" : "NOT SET");
 
   const consul = new Consul({
     host: consulHost,
     port: consulPort,
+    defaults: {
+      token: consulToken
+    }
   });
 
   // Consul tools
